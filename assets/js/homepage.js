@@ -1,3 +1,5 @@
+
+
 var userFromEl = document.querySelector("#user-form");
 var nameInputEl = document.querySelector("#username");
 var repoContainerEl = document.querySelector("#repos-container");
@@ -12,16 +14,18 @@ var getUserRepos = function (user) {
 
             if (response.ok) {
                 response.json()
-                .then(function (data) {
-                    displayRepos(data, user);
-                });
+                    .then(function (data) {
+                        displayRepos(data, user);
+                    });
             }
             else {
                 alert("Error. Github User Not Found");
             }
-
-
             //console.log("inside",response);
+        })
+    
+        .catch(function (error) {
+            alert("unable to connect to gitHub"); 
         });
 
     console.log("outside");
@@ -55,8 +59,9 @@ var displayRepos = function (repos, searchTerm) {
     for (var i = 0; i < repos.length; i++) {
         var repoName = repos[i].owner.login + "/" + repos[i].name;
 
-        var repoEl = document.createElement("div");
+        var repoEl = document.createElement("a");
         repoEl.classList = "list-item flex-row justify-space-between align-center";
+        repoEl.setAttribute("href", "./single-repo.html?repo="+repoName);
 
         var titleEl = document.createElement("span");
         titleEl.textContent = repoName;
